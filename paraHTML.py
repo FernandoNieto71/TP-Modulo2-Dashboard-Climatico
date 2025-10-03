@@ -4,6 +4,12 @@ import os
 import plotly.express as px
 import plotly.graph_objects as go
 
+from plotly.io import write_html
+
+
+
+
+
 # 📁 Rutas
 #carpeta = r"C:\UniCABA\Programacion Avanzada para Cs Datos\TP-modulo_2"
 #csv_path = os.path.join(carpeta, "ESTADISTICAS CLIMATICAS NORMALES.CSV")
@@ -120,6 +126,7 @@ fig_temp = grafico_linea(df, "TEMPERATURA (°C)")
 fig_humedad = grafico_linea(df, "HUMEDAD RELATIVA (%)")
 fig_viento = grafico_linea(df, "VELOCIDAD DEL VIENTO (KM/H)")
 
+
 # 🗺️ Mapas por mes
 def generar_mapa(mes):
     df_mapa = df.copy() if mes == "Todos" else df[df["MES"] == mes]
@@ -179,7 +186,18 @@ dashboard.update_layout(grid={"rows": 1, "columns": 3}, title="📊 KPIs Climát
 #    f.write(fig_humedad.to_html(full_html=False, include_plotlyjs=False))
 #    f.write(fig_viento.to_html(full_html=True, include_plotlyjs=False))
 
+encabezado = """
+<h1 style="text-align:center; font-family:sans-serif;">Estadísticas Climatológicas Argentinas</h1>
+<h2 style="text-align:center; font-family:sans-serif; color:gray;">
+    Datos obtenidos desde el Servicio Meteorológico Nacional
+</h2>
+<br>
+"""
+
 with open(html_path, "w", encoding="utf-8") as f:
+    #encabezado
+    f.write(encabezado)
+    
     # Incluir KPIs
     f.write(dashboard.to_html(full_html=False, include_plotlyjs='cdn'))
 
